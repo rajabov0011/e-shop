@@ -25,33 +25,6 @@ internal class Program
         int myChoose = Convert.ToInt32(System.Console.ReadLine());
         Credential credential = new Credential();
 
-        try
-        {
-            switch (myChoose)
-            {
-                case 1:
-                    System.Console.Clear();
-                    credential = CreateCredential();
-                    loginService.AddCredential(credential);
-                    break;
-
-                case 2:
-                    System.Console.Clear();
-                    credential = CreateCredential();
-                    loginService.CheckCredentialLogin(credential);
-                    break;
-
-                default:
-                    System.Console.Clear();
-                    System.Console.WriteLine("This service does not exist!");
-                    break;
-            }
-        }
-        catch (Exception exception)
-        {
-            System.Console.WriteLine(exception.Message);
-        }
-
         bool retry = true;
         do
         {
@@ -169,7 +142,7 @@ internal class Program
         System.Console.WriteLine("2. Log In");
     }
 
-    private static Credential CreateCredential()
+    private Credential CreateCredential()
     {
         Credential credential = new Credential();
         System.Console.Write("Enter your username >>> ");
