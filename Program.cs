@@ -20,24 +20,30 @@ internal class Program
         
     private static void Main(string[] args)
     {
-        ShowMenu();
-        System.Console.Write("Choose >>> ");
-        int myChoose = Convert.ToInt32(System.Console.ReadLine());
-        Credential credential = new Credential();
 
+        bool checkTrueLoginAndPassword = false;
         bool retry = true;
         do
         {
+            Console.Clear();
+            ShowMenu();
+            System.Console.Write("Choose >>> ");
+            int myChoose = Convert.ToInt32(System.Console.ReadLine());
+            Credential credential = new Credential();
             if (myChoose == 1)
             {
                 System.Console.Clear();
                 credential = CreateCredential();
                 loginService.AddCredential(credential);
                 loggingBroker.LogSucces("Credential added successfully!");
+            }
+            else 
+            { 
                 System.Console.Clear();
                 credential = CreateCredential();
                 if (fileStorageBroker.CheckUserLogin(credential))
                 {
+                    checkTrueLoginAndPassword = true;
                     loginService.CheckCredentialLogin(credential);
                     bool chooseElse = true;
                     do
@@ -95,6 +101,7 @@ internal class Program
                         }
                         else
                             loggingBroker.LogError("This product does not exist, please select again.");
+
                     } while (chooseElse);
 
                     Console.WriteLine("How would you like to deliver the products?");
@@ -103,6 +110,7 @@ internal class Program
                     int shippingType = Convert.ToInt32(Console.ReadLine());
                     if (shippingType == 1)
                     {
+                        Console.Clear();
                         Shipping shipping = new Shipping();
                         shipping.Type = "Air";
                         shipping.Cost = 100;
@@ -111,6 +119,7 @@ internal class Program
                     }
                     else if (shippingType == 2)
                     {
+                        Console.Clear();
                         Shipping shipping = new Shipping();
                         shipping.Type = "Sea";
                         shipping.Cost = 120;
@@ -119,6 +128,7 @@ internal class Program
                     }
                     else if (shippingType == 3)
                     {
+                        Console.Clear();
                         Shipping shipping = new Shipping();
                         shipping.Type = "Ground";
                         shipping.Cost = 70;
@@ -126,13 +136,24 @@ internal class Program
                         productService.CalculateProductCartWithShipping(shipping);
                     }
                 }
+                else
+                {
+                    Console.Clear();
+                    loggingBroker.LogError("You entered the wrong login or password, please try again!");
+                }
             }
 
-            Console.Write("Do you want to do online shopping again? [yes/no] >>> ");
-            if (Console.ReadLine() == "no")
-                retry = false;
+            if (checkTrueLoginAndPassword == true)
+            {
+                Console.Write("Do you want to do online shopping again? [yes/no] >>> ");
+                if (Console.ReadLine() == "no")
+                    retry = false;
+            }
 
         }while(retry);
+
+        Console.Clear();
+        loggingBroker.LogSucces("Thanks for your choice, Bye!");
     }
 
     private static void ShowMenu()
