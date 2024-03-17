@@ -18,7 +18,7 @@ internal class Program
     static IProductService productService = new ProductService();
     static IFileStorageBroker fileStorageBroker = new FileStorageBroker();
         
-    public void Main(string[] args)
+    private static void Main(string[] args)
     {
         ShowMenu();
         System.Console.Write("Choose >>> ");
@@ -135,14 +135,14 @@ internal class Program
         }while(retry);
     }
 
-    private void ShowMenu()
+    private static void ShowMenu()
     {
         System.Console.WriteLine("\t===== Welcome to online shop! ======");
         System.Console.WriteLine("1. Sign Up");
         System.Console.WriteLine("2. Log In");
     }
 
-    private Credential CreateCredential()
+    private static Credential CreateCredential()
     {
         Credential credential = new Credential();
         System.Console.Write("Enter your username >>> ");
